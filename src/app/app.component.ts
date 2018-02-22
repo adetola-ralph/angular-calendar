@@ -9,8 +9,8 @@ export class AppComponent  {
   name = 'Angular 5';
   selectedDates;
 
-  oreofe($event) {
+  select($event) {
     this.selectedDates = $event;
-    console.log($event);
+    console.log(this.selectedDates);
   }
 }

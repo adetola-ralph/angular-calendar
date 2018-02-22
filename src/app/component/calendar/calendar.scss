@@ -1,12 +1,24 @@
 #calendar {
-  width: 550px;
-  height: 250px;
+  font-family: 'Open sans', Roboto, sans-serif;
+  width: 250px;
+  height: auto;
   margin: 20px auto;
+  position: relative;
+  background-color: hsl(0, 0, 100);
+  box-shadow: 0 2px 6px hsla(0, 0, 0, 0.2);
+  border-radius: 5px;
+  font-weight: 300;
+  font-size: 12px;
 
   .calendarInfo {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    justify-content: space-around;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 10px;
+    // background-color: hsl(168, 76%, 42%);
+    background-color: hsl(120, 100%, 32%);
+    color: hsl(0, 0%, 100%);
     
     .date {
       text-transform: capitalize;
@@ -17,28 +29,62 @@
     }
   }
 
+  .date-modal {
+    // border: 1px solid black;
+    box-shadow: #ccc 1px 1px 1px, #ccc -1px 1px 1px;
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    background-color: white;
+    left: 53px;
+    top: 25px;
+
+    .modal-header {
+      height: 30px;
+      background-color: hsl(168, 76%, 42%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 400;
+      color: white;
+      text-transform: capitalize;
+    }
+  }
+
   table {
-    width: 100%;
+    margin: auto;
     height: 100%;
+    padding: 0 10px 10px 10px;
 
     th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
+      height: 35px;
+      width: 35px;
+      vertical-align: middle;
       box-sizing: border-box;
-      // width: 50px;
       text-align: center;
       text-transform: capitalize;
+      font-weight: 300;
+      padding: 0;
+    }
+
+    th {
+      // background-color: hsl(210, 9%, 96%);
+      color: hsl(0, 0, 60);
+      font-weight: 400;
     }
     
     td {
       cursor: pointer;
+      color: hsl(0, 0, 60);
       
       &:hover {
-        background-color: #E4F1FE;
+        color: hsl(120, 100%, 32%);
+        font-weight: 500;
       }
 
       &.selected {
-        background-color: #59ABE3;
+        background-color: hsl(120, 100%, 32%);
+        color: hsl(0, 0, 100%);
       }
     }
   } 

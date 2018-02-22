@@ -4,6 +4,16 @@
     <span class="date">{{returnedMonth}}, {{returnedYear}}</span>
     <a (click)="nextMonth()"><i class="fas fa-angle-right"></i></a>
   </div>
+  <div class="date-modal" *ngIf="false">
+    <div class="modal-header">
+      <span *ngIf="modalMode[selectedMode] === 'month'">
+        {{returnedMonth}}
+      </span>
+    </div>
+    <div class="modal-body">
+      Body
+    </div>
+  </div>
   <table cellspacing="0">
     <thead>
       <tr>
@@ -20,6 +30,4 @@
       </tr>
     </tbody>
   </table>
-  <!-- <div *ngIf="multiple">{{selectedDate | json}}</div>
-  <div *ngIf="!multiple">{{selectedDate}}</div> -->
 </div>
