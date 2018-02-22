@@ -1,0 +1,41 @@
+#calendar {
+  width: 550px;
+  height: 250px;
+  margin: 20px auto;
+
+  .calendarInfo {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    
+    .date {
+      text-transform: capitalize;
+    }
+  }
+
+  table {
+    width: 100%;
+    height: 100%;
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      box-sizing: border-box;
+      // width: 50px;
+      text-align: center;
+      text-transform: capitalize;
+    }
+    
+    td {
+      cursor: pointer;
+      
+      &:hover {
+        background-color: #E4F1FE;
+      }
+
+      &.selected {
+        background-color: #59ABE3;
+      }
+    }
+  } 
+}

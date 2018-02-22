@@ -1,0 +1,25 @@
+<div id="calendar">
+  <div class="calendarInfo">
+    <a (click)="previousMonth()"><i class="fas fa-angle-left"></i></a>
+    <span class="date">{{returnedMonth}}, {{returnedYear}}</span>
+    <a (click)="nextMonth()"><i class="fas fa-angle-right"></i></a>
+  </div>
+  <table cellspacing="0">
+    <thead>
+      <tr>
+        <th *ngFor="let day of days">
+          {{day}}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let week of returnMonthCalendarDays">
+        <td *ngFor="let day of week" [ngClass]="{ selected: selected(day) }" (click)="select(day)">
+          {{day}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- <div *ngIf="multiple">{{selectedDate | json}}</div>
+  <div *ngIf="!multiple">{{selectedDate}}</div> -->
+</div>
