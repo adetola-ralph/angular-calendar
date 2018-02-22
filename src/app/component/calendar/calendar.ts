@@ -21,7 +21,7 @@ export class CalendarComponent implements OnInit {
   visibleMonth;
   visibleDay;
   selectedDate;
-  days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  days = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
   months = months;
   multiple: boolean;
 
@@ -80,6 +80,9 @@ export class CalendarComponent implements OnInit {
 
       dayArray[weekNumber][dayIndex] = day;
     }
+
+    const weekLength = dayArray.length;
+    dayArray[weekLength - 1] = dayArray[weekLength - 1].concat(new Array(7 - dayArray[weekLength - 1].length));
 
     return dayArray;
   }
