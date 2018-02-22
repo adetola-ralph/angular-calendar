@@ -7,7 +7,7 @@ import months from './months';
   selector: 'app-calendar',
   styleUrls: ['./calendar.scss'],
 })
-export class Calendar implements OnInit {
+export class CalendarComponent implements OnInit {
 
   @Input() multipleDates;
   @Input() limit;
@@ -20,8 +20,8 @@ export class Calendar implements OnInit {
   visibleYear;
   visibleMonth;
   visibleDay;
-  selectedDate: Date | Array<Date>;
-  days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+  selectedDate;
+  days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   months = months;
   multiple: boolean;
 
@@ -46,7 +46,6 @@ export class Calendar implements OnInit {
         this.visibleDay
       ));
     }
-    
   }
 
   private get returnedYear(): number|string {
@@ -59,7 +58,7 @@ export class Calendar implements OnInit {
   }
 
   private get returnedMonthIndex(): number|string {
-    return (typeof this.visibleMonth === 'number') ? this.visibleMonth : this.presentMonth;;
+    return (typeof this.visibleMonth === 'number') ? this.visibleMonth : this.presentMonth;
   }
 
   private get returnMonthCalendarDays(): Array<Array<number>> {
@@ -70,7 +69,7 @@ export class Calendar implements OnInit {
 
   private getDays(year, month): Array<Array<number>> {
     const date = new Date(year, month, 1);
-    let dayArray = [[]];
+    const dayArray = [[]];
 
     for (let day = 1, weekNumber = 0; date.getMonth() === month; day++, date.setDate(day)) {
       const dayIndex = date.getDay();
@@ -88,7 +87,7 @@ export class Calendar implements OnInit {
   private previousMonth() {
     let month =
       (typeof this.visibleMonth === 'number') ? this.visibleMonth : this.presentMonth;
-    let year = this.visibleYear ? this.visibleYear : this.presentYear;
+    const year = this.visibleYear ? this.visibleYear : this.presentYear;
     month = month - 1;
 
     if (month === -1) {
@@ -102,7 +101,7 @@ export class Calendar implements OnInit {
   private nextMonth() {
     let month =
       (typeof this.visibleMonth === 'number') ? this.visibleMonth : this.presentMonth;
-    let year = this.visibleYear ? this.visibleYear : this.presentYear;
+    const year = this.visibleYear ? this.visibleYear : this.presentYear;
     month = month + 1;
 
     if (month === 12) {
@@ -119,9 +118,9 @@ export class Calendar implements OnInit {
     }
 
     if (this.multiple) {
-      var index = this.selectedDate.findIndex((value) => {
+      const index = this.selectedDate.findIndex((value) => {
         return day === value.getDate() && this.visibleMonth === value.getMonth() &&
-        this.visibleYear === value.getFullYear()
+        this.visibleYear === value.getFullYear();
       });
       return index !== -1;
     } else {
@@ -139,17 +138,17 @@ export class Calendar implements OnInit {
     }
 
     if (this.multiple) {
-      var index = this.selectedDate.findIndex((value) => {
+      const index = this.selectedDate.findIndex((value) => {
         return day === value.getDate() && this.visibleMonth === value.getMonth() &&
-        this.visibleYear === value.getFullYear()
+        this.visibleYear === value.getFullYear();
       });
-      
+
       if (index !== -1) {
         this.selectedDate.splice(index, 1);
-        // this.dateSelected.emit(this.selectedDate);
+        this.dateSelected.emit(this.selectedDate);
         return;
       }
-      
+
       if (this.limit && this.selectedDate.length === this.limit) {
         return;
       }

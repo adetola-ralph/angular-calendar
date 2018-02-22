@@ -10,8 +10,7 @@ export class AppComponent  {
   selectedDates;
 
   oreofe($event) {
-    console.log('io')
     this.selectedDates = $event;
-    console.log($event, 'pp')
+    console.log($event);
   }
 }
