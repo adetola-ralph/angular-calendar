@@ -1,5 +1,10 @@
 <app-calendar 
   [multipleDates]="false"
-  [limit]="3"
+  (dateSelected)="select($event)">
+</app-calendar>
+
+<app-calendar 
+  [multipleDates]="true"
+  [limit]="4"
   (dateSelected)="select($event)">
 </app-calendar>

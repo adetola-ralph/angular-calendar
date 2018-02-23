@@ -1,20 +1,15 @@
 <div id="calendar">
   <div class="calendarInfo">
     <a (click)="previousMonth()"><i class="fas fa-angle-left"></i></a>
-    <span class="date">{{returnedMonth}}, {{returnedYear}}</span>
+    <span class="date" (click)="switchMode()" *ngIf="mode[selectedMode] === 'calendar'">
+      {{returnedMonth}}, {{returnedYear}}
+    </span>
+    <span class="date" (click)="switchMode()" *ngIf="mode[selectedMode] === 'month'">
+      {{returnedYear}}
+    </span>
     <a (click)="nextMonth()"><i class="fas fa-angle-right"></i></a>
   </div>
-  <div class="date-modal" *ngIf="false">
-    <div class="modal-header">
-      <span *ngIf="modalMode[selectedMode] === 'month'">
-        {{returnedMonth}}
-      </span>
-    </div>
-    <div class="modal-body">
-      Body
-    </div>
-  </div>
-  <table cellspacing="0">
+  <table cellspacing="0" *ngIf="mode[selectedMode] === 'calendar'">
     <thead>
       <tr>
         <th *ngFor="let day of days">
@@ -24,10 +19,23 @@
     </thead>
     <tbody>
       <tr *ngFor="let week of returnMonthCalendarDays">
-        <td *ngFor="let day of week" [ngClass]="{ selected: selected(day) }" (click)="select(day)">
+        <td 
+          *ngFor="let day of week" 
+          [ngClass]="{ selected: selectedDay(day) }" 
+          (click)="select(day)">
           {{day}}
         </td>
       </tr>
     </tbody>
   </table>
+  <div *ngIf="mode[selectedMode] === 'month'" class="monthView">
+    <div class="months">
+      <span
+        *ngFor="let month of months; index as i" 
+        (click)="selectMonth(i)"
+        [ngClass]="{ selected: selectedMonth(i) }">
+        {{month.shortName}}
+      </span>
+    </div>
+  </div>
 </div>

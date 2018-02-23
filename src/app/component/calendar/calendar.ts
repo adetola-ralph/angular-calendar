@@ -26,7 +26,13 @@ export class CalendarComponent implements OnInit {
   multiple: boolean;
   months;
 
-  constructor() {}
+  mode = [
+    'calendar',
+    'month',
+    // 'year',
+    // 'decade',
+  ];
+  selectedMode = 0;
 
   constructor(
     private calendarService: CalendarService,
@@ -70,27 +76,7 @@ export class CalendarComponent implements OnInit {
   private get returnMonthCalendarDays(): Array<Array<number>> {
     const year = this.returnedYear;
     const month = this.returnedMonthIndex;
-    return this.getDays(year, month);
-  }
-
-  private getDays(year, month): Array<Array<number>> {
-    const date = new Date(year, month, 1);
-    const dayArray = [[]];
-
-    for (let day = 1, weekNumber = 0; date.getMonth() === month; day++, date.setDate(day)) {
-      const dayIndex = date.getDay();
-      if (dayArray[weekNumber].length === 7) {
-        dayArray.push([]);
-        weekNumber++;
-      }
-
-      dayArray[weekNumber][dayIndex] = day;
-    }
-
-    const weekLength = dayArray.length;
-    dayArray[weekLength - 1] = dayArray[weekLength - 1].concat(new Array(7 - dayArray[weekLength - 1].length));
-
-    return dayArray;
+    return this.calendarService.getCalendarDays(year, month);
   }
 
   private previousMonth() {
@@ -121,11 +107,10 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  private selected(day) {
-  if (!this.selectedDate) {
+  private selectedDay(day) {
+    if (!this.selectedDate) {
       return false;
     }
-
     if (this.multiple) {
       const index = this.selectedDate.findIndex((value) => {
         return day === value.getDate() && this.visibleMonth === value.getMonth() &&
@@ -176,7 +161,28 @@ export class CalendarComponent implements OnInit {
         this.visibleMonth,
         this.visibleDay
       );
-      this.visibleDay = day;
+    }
+
+    this.dateSelected.emit(this.selectedDate);
+  }
+
+  private selectedMonth(month) {
+    if (!this.selectedDate) {
+      return false;
+    }
+
+    if (!this.multiple) {
+      return (
+        month === this.selectedDate.getMonth() &&
+        this.visibleYear === this.selectedDate.getFullYear()
+      );
+    }
+  }
+
+  private selectMonth(month) {
+    this.visibleMonth = month;
+
+    if (!this.multiple) {
       this.selectedDate = new Date(
         this.visibleYear,
         this.visibleMonth,
@@ -184,7 +190,15 @@ export class CalendarComponent implements OnInit {
       );
     }
 
-    this.dateSelected.emit(this.selectedDate);
+    this.selectedMode = 0;
+  }
+
+  private switchMode() {
+    let mode = this.selectedMode;
+    mode++;
+    if (mode !== this.mode.length) {
+      this.selectedMode = mode;
+    }
   }
 
 }
