@@ -1,13 +1,13 @@
 <div id="calendar">
   <div class="calendarInfo">
-    <a (click)="previousMonth()"><i class="fas fa-angle-left"></i></a>
+    <a (click)="previous()"><i class="fas fa-angle-left"></i></a>
     <span class="date" (click)="switchMode()" *ngIf="mode[selectedMode] === 'calendar'">
       {{returnedMonth}}, {{returnedYear}}
     </span>
     <span class="date" (click)="switchMode()" *ngIf="mode[selectedMode] === 'month'">
       {{returnedYear}}
     </span>
-    <a (click)="nextMonth()"><i class="fas fa-angle-right"></i></a>
+    <a (click)="next()"><i class="fas fa-angle-right"></i></a>
   </div>
   <table cellspacing="0" *ngIf="mode[selectedMode] === 'calendar'">
     <thead>

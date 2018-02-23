@@ -30,7 +30,6 @@ export class CalendarComponent implements OnInit {
     'calendar',
     'month',
     // 'year',
-    // 'decade',
   ];
   selectedMode = 0;
 
@@ -104,6 +103,34 @@ export class CalendarComponent implements OnInit {
       this.visibleMonth = 0;
     } else {
       this.visibleMonth = month;
+    }
+  }
+
+  private nextYear() {
+    let year = this.visibleYear || this.presentYear;
+    year++;
+    this.visibleYear = year;
+  }
+
+  private previousYear() {
+    let year = this.visibleYear || this.presentYear;
+    year--;
+    this.visibleYear = year;
+  }
+
+  private previous() {
+    if (this.mode[this.selectedMode] === 'calendar') {
+      this.previousMonth();
+    } else if (this.mode[this.selectedMode] === 'month') {
+      this.previousYear();
+    }
+  }
+
+  private next() {
+    if (this.mode[this.selectedMode] === 'calendar') {
+      this.nextMonth();
+    } else if (this.mode[this.selectedMode] === 'month') {
+      this.nextYear();
     }
   }
 

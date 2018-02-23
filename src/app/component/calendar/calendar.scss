@@ -97,13 +97,15 @@
     padding: 2px 10px 10px 10px;
 
     & > * {
-      width: calc(100% / 4);
-      height: 60px;
+      width: calc((100% / 4) - 22px);
+      height: 35.5px;
+      margin: 10px;
       text-transform: capitalize;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
+      border: 1px solid transparent;
 
       &:hover {
         background-color: hsla(120, 100%, 32%, 0.5);
@@ -113,7 +115,6 @@
 
       &.selected {
         border: 1px solid hsl(120, 100%, 32%);
-        box-sizing: border-box;
         border-radius: 50%;
       }
     }
