@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
-import months from './months';
+import { CalendarService } from './service/calendar.service';
 
 @Component({
   templateUrl: './calendar.html',
   selector: 'app-calendar',
   styleUrls: ['./calendar.scss'],
+  providers: [CalendarService]
 })
 export class CalendarComponent implements OnInit {
 
@@ -22,12 +23,17 @@ export class CalendarComponent implements OnInit {
   visibleDay;
   selectedDate;
   days = ['su', 'mo', 'tu', 'we', 'th', 'fr', 'sa'];
-  months = months;
   multiple: boolean;
+  months;
 
   constructor() {}
 
+  constructor(
+    private calendarService: CalendarService,
+  ) {}
+
   ngOnInit() {
+    this.months = this.calendarService.getMonths();
     this.multiple = this.multipleDates || false;
     this.visibleMonth = this.presentMonth;
     this.visibleYear = this.presentYear;
