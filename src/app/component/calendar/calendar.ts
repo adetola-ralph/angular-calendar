@@ -26,10 +26,14 @@ export class CalendarComponent implements OnInit {
   multiple: boolean;
   months;
 
+  // for decades
+  presentDecadeStart = Math.floor(this.presentYear / 10) * 10;
+  visibleDecadeStart;
+
   mode = [
     'calendar',
     'month',
-    // 'year',
+    'decade',
   ];
   selectedMode = 0;
 
@@ -43,6 +47,7 @@ export class CalendarComponent implements OnInit {
     this.visibleMonth = this.presentMonth;
     this.visibleYear = this.presentYear;
     this.visibleDay = this.presentDay;
+    this.visibleDecadeStart = this.presentDecadeStart;
     if (!this.multiple) {
       this.selectedDate = new Date(
         this.visibleYear,
@@ -126,11 +131,25 @@ export class CalendarComponent implements OnInit {
     this.visibleYear = year;
   }
 
+  private previousDecade() {
+    let decadeStart = this.visibleDecadeStart || this.presentDecadeStart;
+    decadeStart -= 10;
+    this.visibleDecadeStart = decadeStart;
+  }
+
+  private nextDecade() {
+    let decadeStart = this.visibleDecadeStart || this.presentDecadeStart;
+    decadeStart += 10;
+    this.visibleDecadeStart = decadeStart;
+  }
+
   private previous() {
     if (this.mode[this.selectedMode] === 'calendar') {
       this.previousMonth();
     } else if (this.mode[this.selectedMode] === 'month') {
       this.previousYear();
+    } else if (this.mode[this.selectedMode] === 'decade') {
+      this.previousDecade();
     }
   }
 
@@ -139,6 +158,8 @@ export class CalendarComponent implements OnInit {
       this.nextMonth();
     } else if (this.mode[this.selectedMode] === 'month') {
       this.nextYear();
+    } else if (this.mode[this.selectedMode] === 'decade') {
+      this.nextDecade();
     }
   }
 
@@ -213,6 +234,17 @@ export class CalendarComponent implements OnInit {
       );
     }
   }
+  private selectedYear(year) {
+    if (!this.selectedDate) {
+      return false;
+    }
+
+    if (!this.multiple) {
+      return (
+        year === this.selectedDate.getFullYear()
+      );
+    }
+  }
 
   private selectMonth(month) {
     this.visibleMonth = month;
@@ -226,6 +258,20 @@ export class CalendarComponent implements OnInit {
     }
 
     this.selectedMode = 0;
+  }
+
+  private selectYear(year) {
+    this.visibleYear = year;
+
+    if (!this.multiple) {
+      this.selectedDate = new Date(
+        this.visibleYear,
+        this.visibleMonth,
+        this.visibleDay
+      );
+    }
+
+    this.selectedMode = 1;
   }
 
   private switchMode() {

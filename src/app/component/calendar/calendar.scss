@@ -106,6 +106,7 @@
       align-items: center;
       cursor: pointer;
       border: 1px solid transparent;
+      color: hsl(0, 0, 60);
 
       &:hover {
         background-color: hsla(120, 100%, 32%, 0.5);
