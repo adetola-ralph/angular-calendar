@@ -29,4 +29,14 @@ export class CalendarService {
   getMonths(): Array<any> {
     return months;
   }
+
+  getDecade(year): Array<number> {
+    const range = [year];
+    for (let i = 1; i < 10; i++) {
+      const newYear = year + i;
+      range.push(newYear);
+    }
+
+    return range;
+  }
 }

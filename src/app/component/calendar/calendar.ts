@@ -78,6 +78,14 @@ export class CalendarComponent implements OnInit {
     return this.calendarService.getCalendarDays(year, month);
   }
 
+  private get returnedDecadeStart() {
+    return this.visibleDecadeStart || this.presentDecadeStart;
+  }
+
+  private get returnedDecadeList() {
+    return this.calendarService.getDecade(this.returnedDecadeStart);
+  }
+
   private previousMonth() {
     let month =
       (typeof this.visibleMonth === 'number') ? this.visibleMonth : this.presentMonth;
