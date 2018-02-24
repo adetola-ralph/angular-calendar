@@ -1,17 +1,26 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 
-import { CalendarService } from './service/calendar.service';
+import { DatePickerService } from './service/datepicker.service';
 
 @Component({
-  templateUrl: './calendar.html',
-  selector: 'app-calendar',
-  styleUrls: ['./calendar.scss'],
-  providers: [CalendarService]
+  templateUrl: './datepicker.html',
+  selector: 'app-datepicker',
+  styleUrls: ['./datepicker.scss'],
+  providers: [DatePickerService]
 })
-export class CalendarComponent implements OnInit {
+export class DatePickerComponent implements OnInit {
 
+  // input for enabling multiple date selection
   @Input() multipleDates;
+
+  // multiple date selection limit
   @Input() limit;
+
+  // for limiting the dates that can be selected
+  @Input() minDate;
+  @Input() maxDate;
+
+  // emits selected date(s) value
   @Output() dateSelected = new EventEmitter();
 
   presentYear = new Date().getFullYear();
@@ -38,11 +47,11 @@ export class CalendarComponent implements OnInit {
   selectedMode = 0;
 
   constructor(
-    private calendarService: CalendarService,
+    private datePickerService: DatePickerService,
   ) {}
 
   ngOnInit() {
-    this.months = this.calendarService.getMonths();
+    this.months = this.datePickerService.getMonths();
     this.multiple = this.multipleDates || false;
     this.visibleMonth = this.presentMonth;
     this.visibleYear = this.presentYear;
@@ -80,7 +89,7 @@ export class CalendarComponent implements OnInit {
   private get returnMonthCalendarDays(): Array<Array<number>> {
     const year = this.returnedYear;
     const month = this.returnedMonthIndex;
-    return this.calendarService.getCalendarDays(year, month);
+    return this.datePickerService.getCalendarDays(year, month);
   }
 
   private get returnedDecadeStart() {
@@ -88,7 +97,7 @@ export class CalendarComponent implements OnInit {
   }
 
   private get returnedDecadeList() {
-    return this.calendarService.getDecade(this.returnedDecadeStart);
+    return this.datePickerService.getDecade(this.returnedDecadeStart);
   }
 
   private previousMonth() {

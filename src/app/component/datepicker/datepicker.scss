@@ -1,4 +1,4 @@
-#calendar {
+#datepicker {
   font-family: 'Open sans', Roboto, sans-serif;
   width: 250px;
   height: auto;
@@ -16,7 +16,6 @@
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     padding: 10px;
-    // background-color: hsl(168, 76%, 42%);
     background-color: hsl(120, 100%, 32%);
     color: hsl(0, 0%, 100%);
     
@@ -31,7 +30,6 @@
   }
 
   .date-modal {
-    // border: 1px solid black;
     box-shadow: #ccc 1px 1px 1px, #ccc -1px 1px 1px;
     width: 250px;
     height: 250px;
@@ -69,7 +67,6 @@
     }
 
     th {
-      // background-color: hsl(210, 9%, 96%);
       color: hsl(0, 0, 60);
       font-weight: 400;
     }

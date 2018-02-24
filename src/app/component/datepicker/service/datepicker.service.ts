@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import months from './months';
 
 @Injectable()
-export class CalendarService {
+export class DatePickerService {
 
   constructor() { }
 

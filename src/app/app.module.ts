@@ -3,11 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { CalendarComponent } from './component/calendar/calendar';
+import { DatePickerComponent } from './component/datepicker/datepicker';
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule ],
-  declarations: [ AppComponent, CalendarComponent ],
+  declarations: [ AppComponent, DatePickerComponent ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
