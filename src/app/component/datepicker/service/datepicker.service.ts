@@ -49,6 +49,10 @@ export class DatePickerService {
     if (min && max && min.getTime() === max.getTime()) {
       throw new Error('minDate cannot be same with maxDate');
     }
+
+    if (min && max && min.getTime() > max.getTime()) {
+      throw new Error(`maxDate can't be less than minDate`);
+    }
   }
 
   checkDateInput(dateInput, min, max) {
@@ -77,5 +81,7 @@ export class DatePickerService {
       return !(date.getTime() >= min.getTime() &&
         date.getTime() <= max.getTime());
     }
+
+    return false;
   }
 }
