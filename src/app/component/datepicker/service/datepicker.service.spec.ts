@@ -135,4 +135,20 @@ describe('Date Picker service', () => {
       );
     }).toThrowError(`Values in dateInput can't be greater than maxDate or lesser than minDate`);
   });
+
+  it('getCalendarDays should return an array', () => {
+    expect(typeof service.getCalendarDays(2018, 0)).toBe('object');
+    expect(Array.isArray(service.getCalendarDays(2018, 0))).toBe(true);
+  });
+
+  it('getCalendarDays should return array of dates', () => {
+    const startDate = new Date(2018, 0, 1);
+    const startDateDay = startDate.getDay();
+    const endDate = new Date(2018, 0, 31);
+    const endDateDay = endDate.getDay();
+
+    const calendarDays = service.getCalendarDays(2018, 0);
+    expect(calendarDays[0][startDateDay]).toEqual(startDate.getDate());
+    expect(calendarDays[calendarDays.length - 1][endDateDay]).toEqual(endDate.getDate());
+  });
 });
