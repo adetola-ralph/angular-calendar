@@ -131,7 +131,7 @@ describe('Date Picker service', () => {
       service.checkDateInput(
         [new Date(2018, 4, 11), new Date(2018, 5, 11)],
         new Date(2018, 4, 1),
-        new Date(2018, 4, 30),
+        new Date(2018, 4, 30)
       );
     }).toThrowError(`Values in dateInput can't be greater than maxDate or lesser than minDate`);
   });

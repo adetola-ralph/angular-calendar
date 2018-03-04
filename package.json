@@ -17,6 +17,10 @@
     "zone.js": "0.8.18",
     "scss": "0.2.4"
   },
+  "engines": {
+    "node": "8.x.x",
+    "npm": "5.x.x"
+  },
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
