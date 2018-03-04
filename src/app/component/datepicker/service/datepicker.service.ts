@@ -39,4 +39,43 @@ export class DatePickerService {
 
     return range;
   }
+
+  checkMinAndMaxDate(min, max) {
+    if ((min ? !max : max)) {
+      const missingInput = !!max ? 'minDate' : 'maxDate';
+      throw new Error(`Please enter ${missingInput}`);
+    }
+
+    if (min && max && min.getTime() === max.getTime()) {
+      throw new Error('minDate cannot be same with maxDate');
+    }
+  }
+
+  checkDateInput(dateInput, min, max) {
+    if (!dateInput || !(min && max)) {
+      return;
+    }
+
+    if (!Array.isArray(dateInput) && this.dateMinMaxCompare(dateInput, min, max)) {
+      throw new Error(`dateInput can't be greater than maxDate or lesser than minDate`);
+    }
+
+    if (Array.isArray(dateInput)) {
+      const res = dateInput.some((value) => {
+        return !(value.getTime() >= min.getTime() &&
+          value.getTime() <= max.getTime());
+      });
+
+      if (res) {
+        throw new Error(`Values in dateInput can't be greater than maxDate or lesser than minDate`);
+      }
+    }
+  }
+
+  dateMinMaxCompare(date, min, max): boolean {
+    if (min && max) {
+      return !(date.getTime() >= min.getTime() &&
+        date.getTime() <= max.getTime());
+    }
+  }
 }

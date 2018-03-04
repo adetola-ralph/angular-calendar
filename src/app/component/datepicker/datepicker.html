@@ -1,6 +1,6 @@
 <div id="datepicker">
   <div class="calendarInfo">
-    <a (click)="previous()"><i class="fas fa-angle-left"></i></a>
+    <a (click)="previous()"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
     <span class="date" (click)="switchMode()" *ngIf="mode[selectedMode] === 'calendar'">
       {{returnedMonth}}, {{returnedYear}}
     </span>
@@ -10,7 +10,7 @@
     <span class="date" (click)="switchMode()" *ngIf="mode[selectedMode] === 'decade'">
       {{returnedDecadeList[0]}} - {{returnedDecadeList[9]}}
     </span>
-    <a (click)="next()"><i class="fas fa-angle-right"></i></a>
+    <a (click)="next()"><i class="fa fa-chevron-right" aria-hidden="true"></i></a>
   </div>
   <table cellspacing="0" *ngIf="mode[selectedMode] === 'calendar'">
     <thead>
@@ -24,8 +24,8 @@
       <tr *ngFor="let week of returnMonthCalendarDays">
         <td 
           *ngFor="let day of week" 
-          [ngClass]="{ selected: selectedDay(day) }" 
-          (click)="select(day)">
+          [ngClass]="{ selected: selectedDay(day), disabled: disabled(day) }" 
+          (click)="!disabled(day) && select(day)">
           {{day}}
         </td>
       </tr>

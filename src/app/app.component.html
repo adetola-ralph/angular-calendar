@@ -1,10 +1,39 @@
-<app-datepicker 
-  [multipleDates]="false"
-  (dateSelected)="select($event)">
-</app-datepicker>
+<!-- <div>
+  <app-datepicker 
+    [multipleDates]="true"
+    [(dateInput)]="multiDate"
+    [limit]="3"></app-datepicker>
 
-<app-datepicker 
-  [multipleDates]="true"
-  [limit]="4"
-  (dateSelected)="select($event)">
-</app-datepicker>
+  <span style="margin: 20px auto; width: 200px" *ngFor="let date of multiDate; let i = index">
+    {{date | date}}
+  </span>
+</div> -->
+
+<!-- <div>
+  <app-datepicker 
+    [multipleDates]="false"
+    [(dateInput)]="returnDate"></app-datepicker>
+  selected time: {{returnDate | date}}
+</div> -->
+
+<!-- <div>
+  <app-datepicker 
+    [multipleDates]="false"
+    [minDate]="minDate"
+    [maxDate]="maxDate"
+    [(dateInput)]="returnDate1"></app-datepicker>
+  selected time: {{returnDate1 | date}}
+</div> -->
+
+<div>
+  <app-datepicker 
+    [multipleDates]="true"
+    [minDate]="minDate"
+    [maxDate]="maxDate"
+    [disableWeekDays]="[0,6]"
+    [(dateInput)]="multiDate1"></app-datepicker>
+  <span style="margin: 20px auto; width: 200px" *ngFor="let date of multiDate1; let i = index">
+    {{date | date}}
+  </span>
+</div>
+

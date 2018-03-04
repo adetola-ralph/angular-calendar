@@ -6,22 +6,26 @@ import { DatePickerService } from './service/datepicker.service';
   templateUrl: './datepicker.html',
   selector: 'app-datepicker',
   styleUrls: ['./datepicker.scss'],
-  providers: [DatePickerService]
+  providers: [DatePickerService],
 })
 export class DatePickerComponent implements OnInit {
 
   // input for enabling multiple date selection
-  @Input() multipleDates;
+  @Input() multipleDates: boolean;
+  @Input() dateInput: Date | Array<Date>;
 
   // multiple date selection limit
-  @Input() limit;
+  @Input() limit: number;
+
 
   // for limiting the dates that can be selected
-  @Input() minDate;
-  @Input() maxDate;
+  @Input() minDate: Date;
+  @Input() maxDate: Date;
+
+  @Input() disableWeekDays: Array<number> = [];
 
   // emits selected date(s) value
-  @Output() dateSelected = new EventEmitter();
+  @Output() dateInputChange = new EventEmitter(true);
 
   presentYear = new Date().getFullYear();
   // remember that month starts with 0
@@ -48,32 +52,62 @@ export class DatePickerComponent implements OnInit {
 
   constructor(
     private datePickerService: DatePickerService,
-  ) {}
+  ) { }
 
   ngOnInit() {
+    this.datePickerService.checkMinAndMaxDate(
+      this.minDate,
+      this.maxDate
+    );
+
+    this.datePickerService.checkDateInput(
+      this.dateInput,
+      this.minDate,
+      this.maxDate
+    );
+
     this.months = this.datePickerService.getMonths();
     this.multiple = this.multipleDates || false;
-    this.visibleMonth = this.presentMonth;
-    this.visibleYear = this.presentYear;
-    this.visibleDay = this.presentDay;
-    this.visibleDecadeStart = this.presentDecadeStart;
-    if (!this.multiple) {
+
+    if (this.dateInput && !Array.isArray(this.dateInput) && !this.multiple) {
+      this.visibleMonth = this.dateInput.getMonth();
+      this.visibleYear = this.dateInput.getFullYear();
+      this.visibleDay = this.dateInput.getDate();
+      this.visibleDecadeStart = Math.floor(this.visibleYear / 10) * 10;
+
+      this.selectedDate = new Date(
+        this.visibleYear,
+        this.visibleMonth,
+        this.visibleDay
+      );
+    } else if (this.multiple && this.dateInput && Array.isArray(this.dateInput) && this.dateInput.length > 0) {
+      this.selectedDate = this.dateInput.map((date) => new Date(date));
+      this.visibleMonth = this.selectedDate[0].getMonth();
+      this.visibleYear = this.selectedDate[0].getFullYear();
+      this.visibleDecadeStart = Math.floor(this.visibleYear / 10) * 10;
+    } else if (!this.multiple && !this.dateInput) {
+      this.visibleMonth = this.presentMonth;
+      this.visibleYear = this.presentYear;
+      this.visibleDay = this.presentDay;
+      this.visibleDecadeStart = this.presentDecadeStart;
+
       this.selectedDate = new Date(
         this.visibleYear,
         this.visibleMonth,
         this.visibleDay
       );
     } else {
+      this.visibleMonth = this.presentMonth;
+      this.visibleYear = this.presentYear;
+      this.visibleDay = this.presentDay;
+      this.visibleDecadeStart = this.presentDecadeStart;
+
       this.selectedDate = [];
-      this.selectedDate.push(new Date(
-        this.visibleYear,
-        this.visibleMonth,
-        this.visibleDay
-      ));
     }
+    this.dateInputChange.emit(this.selectedDate);
   }
 
-  private get returnedYear(): number|string {
+  private get returnedYear(): number | string {
     return this.visibleYear || this.presentYear;
   }
 
@@ -82,7 +116,7 @@ export class DatePickerComponent implements OnInit {
     return this.months[monthIndex].name;
   }
 
-  private get returnedMonthIndex(): number|string {
+  private get returnedMonthIndex(): number | string {
     return (typeof this.visibleMonth === 'number') ? this.visibleMonth : this.presentMonth;
   }
 
@@ -129,9 +163,7 @@ export class DatePickerComponent implements OnInit {
   }
 
   private nextYear() {
-    let year = this.visibleYear || this.presentYear;
-    year++;
-    this.visibleYear = year;
+    this.visibleYear = (this.visibleYear || this.presentYear) + 1;
   }
 
   private previousYear() {
@@ -152,7 +184,7 @@ export class DatePickerComponent implements OnInit {
     this.visibleDecadeStart = decadeStart;
   }
 
-  private previous() {
+  previous() {
     if (this.mode[this.selectedMode] === 'calendar') {
       this.previousMonth();
     } else if (this.mode[this.selectedMode] === 'month') {
@@ -162,7 +194,7 @@ export class DatePickerComponent implements OnInit {
     }
   }
 
-  private next() {
+  next() {
     if (this.mode[this.selectedMode] === 'calendar') {
       this.nextMonth();
     } else if (this.mode[this.selectedMode] === 'month') {
@@ -172,14 +204,15 @@ export class DatePickerComponent implements OnInit {
     }
   }
 
-  private selectedDay(day) {
+  selectedDay(day) {
     if (!this.selectedDate) {
       return false;
     }
+
     if (this.multiple) {
       const index = this.selectedDate.findIndex((value) => {
         return day === value.getDate() && this.visibleMonth === value.getMonth() &&
-        this.visibleYear === value.getFullYear();
+          this.visibleYear === value.getFullYear();
       });
       return index !== -1;
     } else {
@@ -191,7 +224,7 @@ export class DatePickerComponent implements OnInit {
     }
   }
 
-  private select(day) {
+  select(day) {
     if (!day) {
       return;
     }
@@ -199,12 +232,12 @@ export class DatePickerComponent implements OnInit {
     if (this.multiple) {
       const index = this.selectedDate.findIndex((value) => {
         return day === value.getDate() && this.visibleMonth === value.getMonth() &&
-        this.visibleYear === value.getFullYear();
+          this.visibleYear === value.getFullYear();
       });
 
       if (index !== -1) {
         this.selectedDate.splice(index, 1);
-        this.dateSelected.emit(this.selectedDate);
+        this.dateInputChange.emit(this.selectedDate);
         return;
       }
 
@@ -219,6 +252,9 @@ export class DatePickerComponent implements OnInit {
       );
 
       this.selectedDate.push(date);
+      this.selectedDate.sort((prev, next) => {
+        return prev.getTime() > next.getTime();
+      });
     } else {
       this.visibleDay = day;
       this.selectedDate = new Date(
@@ -228,10 +264,10 @@ export class DatePickerComponent implements OnInit {
       );
     }
 
-    this.dateSelected.emit(this.selectedDate);
+    this.dateInputChange.emit(this.selectedDate);
   }
 
-  private selectedMonth(month) {
+  selectedMonth(month) {
     if (!this.selectedDate) {
       return false;
     }
@@ -243,7 +279,7 @@ export class DatePickerComponent implements OnInit {
       );
     }
   }
-  private selectedYear(year) {
+  selectedYear(year) {
     if (!this.selectedDate) {
       return false;
     }
@@ -255,7 +291,7 @@ export class DatePickerComponent implements OnInit {
     }
   }
 
-  private selectMonth(month) {
+  selectMonth(month) {
     this.visibleMonth = month;
 
     if (!this.multiple) {
@@ -269,7 +305,7 @@ export class DatePickerComponent implements OnInit {
     this.selectedMode = 0;
   }
 
-  private selectYear(year) {
+  selectYear(year) {
     this.visibleYear = year;
 
     if (!this.multiple) {
@@ -289,6 +325,24 @@ export class DatePickerComponent implements OnInit {
     if (mode !== this.mode.length) {
       this.selectedMode = mode;
     }
+  }
+
+  disabled(day) {
+    if (!day || (this.minDate ? !this.maxDate : this.maxDate) || this.disableWeekDays.length === 0) {
+      return false;
+    }
+
+    const date = new Date(
+      this.visibleYear,
+      this.visibleMonth,
+      day
+    );
+
+    return this.datePickerService.dateMinMaxCompare(
+      date,
+      this.minDate,
+      this.maxDate
+    ) || this.disableWeekDays.includes(date.getDay());
   }
 
 }
