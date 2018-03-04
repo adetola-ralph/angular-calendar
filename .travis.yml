@@ -24,4 +24,7 @@ before_script:
 - ng build
 
 script:
-  - ng test --single-run
+  - istanbul cover ng test --single-run
+
+after_scrip:
+  - npm coveralls

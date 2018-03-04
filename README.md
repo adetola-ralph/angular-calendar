@@ -1,4 +1,7 @@
-# angular-qjownf
+# angular-datepicker
+[![Build Status](https://travis-ci.org/adetola-ralph/angular-datepicker.svg?branch=master)](https://travis-ci.org/adetola-ralph/angular-datepicker)
+
+[![Coverage Status](https://coveralls.io/repos/github/adetola-ralph/angular-datepicker/badge.svg?branch=master)](https://coveralls.io/github/adetola-ralph/angular-datepicker?branch=master)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.2.1.
 
